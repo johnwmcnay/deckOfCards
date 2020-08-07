@@ -1,13 +1,10 @@
 
-//cards have a suit, and rank, and sometimes an alternate value (i.e. wild cards, Ace 1 or 11)
+//cards have a suit, rank, visibility, an owner, and a current location
 class playingCard {
 
     suit = ''; //possible suits H S D C
     rank = ''; //2 3 4 5 6 7 8 9 10 J K Q A Joker
-    value = 0;
-    altValue = 0;
     isVisible = false;
-    isWild = false;
     belongsTo = {};
     currentLocation = {};
 
@@ -60,11 +57,9 @@ class playingCard {
 
 }
 
-
-
-
 class playingCardDeck {
 
+    id = 'deck'; //property for potential use of multiple decks
     cards = []; //an array of playingCard objects
 
     constructor() {
@@ -74,13 +69,14 @@ class playingCardDeck {
     //returns an array of playingCard objects
     defaultDeck() {
         let cardArray = [];
-        for (var suit of ['H', 'S', 'D', 'C']) {
-            for (var rank of ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']) {
+        for (let suit of ['H', 'S', 'D', 'C']) {
+            for (let rank of ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']) {
                 cardArray.push(new playingCard(rank, suit));
             }
         }
         return cardArray;
     }
+
     //createDeck takes in a function that stores and stores an array of playingCards
     createDeck(createFunction=this.defaultDeck) {
         this.cards = createFunction();

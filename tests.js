@@ -37,7 +37,7 @@ describe("playingCard", function() {
 
 describe("playingCardDeck", function() {
 
-    it("class should type function", function () {
+    it("class should be type function", function () {
 
         expect(typeof playingCardDeck).toBe("function");
 
