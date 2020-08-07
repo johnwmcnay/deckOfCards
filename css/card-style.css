@@ -1,0 +1,20 @@
+.red-card {
+    float: left;
+    color: red;
+}
+
+.black-card {
+    float: left;
+}
+
+.table {
+    alignment: center;
+}
+
+button {
+    margin: 10px;
+}
+
+button:nth-of-type(13n+1) {
+    clear: left;
+}
