@@ -4,13 +4,15 @@ class playingCard {
 
     suit = ''; //possible suits H S D C
     rank = ''; //2 3 4 5 6 7 8 9 10 J K Q A Joker
+    id = '';
     isVisible = false;
     belongsTo = {};
     currentLocation = {};
 
-    constructor(rank, suit){
+    constructor(rank, suit) {
         this.rank = rank;
         this.suit = suit;
+        this.id = rank + suit;
     }
 
     //turns the card over, toggling isVisible and returning the new value
@@ -50,6 +52,15 @@ class playingCard {
     nameAsText() {
         return this.rankAsText() + " of " + this.suitAsText();
     }
+
+    isRed() {
+        return (this.suit === "D" || this.suit === "H");
+    }
+
+    isBlack() {
+        return !this.isRed();
+    }
+
 
     //moveTo moves card to a new location
     //randomize, generate a random card

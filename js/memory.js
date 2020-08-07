@@ -2,6 +2,19 @@ var wrapper = document.createElement('div');
 wrapper.id = "table";
 
 var clicked = [];
+function setAllButtons(state) {
+    for (let btn of document.getElementsByTagName("button")) {
+        btn.disabled = !state;
+    }
+}
+
+function enableAllButtons() {
+    setAllButtons(true);
+}
+
+function disableAllButtons() {
+    setAllButtons(false);
+}
 
 for (let card of deck.cards) {
     var element = document.createElement('button');
@@ -29,9 +42,28 @@ for (let card of deck.cards) {
             this.disabled = true;
         } else if (clicked.length === 1) {
             clicked.push(card);
+            this.disabled = true;
+            let cardOne = clicked[0], cardTwo = clicked[1];
 
+            if ( (cardOne.rank === cardTwo.rank) && (cardOne.isBlack() === cardTwo.isBlack()) ){
+
+                //TODO: lock cards that are flipped after a match
+                console.log("match");
+            } else {
+                console.log("no match");
+                disableAllButtons();
+                setTimeout(enableAllButtons, 1500);
+                let btn1 = document.getElementById(cardOne.id);
+                let btn2 = document.getElementById(cardTwo.id);
+                setTimeout( () => {
+                    cardOne.isVisible = false;
+                    cardTwo.isVisible = false;
+                    document.getElementById(cardOne.id).textContent = "";
+                    document.getElementById(cardTwo.id).textContent = "";
+                }, 1500);
+            }
+            clicked = [];
         }
-        console.log(clicked);
     };
     wrapper.appendChild(element);
 }
