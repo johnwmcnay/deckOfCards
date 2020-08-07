@@ -97,12 +97,12 @@ class playingCardDeck {
 
         for (let i in this.cards) {
             let randomNumber = Math.floor(Math.random() * beforeArray.length);
-            console.log(randomNumber);
             shuffledArray.push(beforeArray[randomNumber]);
             beforeArray = beforeArray.slice(0, randomNumber).concat(beforeArray.slice(randomNumber + 1));
         }
         this.cards = shuffledArray;
     }
+   
 }
 
 //cardTable = {} object for a card table
