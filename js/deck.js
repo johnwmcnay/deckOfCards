@@ -95,3 +95,29 @@ class playingCardDeck {
 //cardTable = {} object for a card table
 //seats/players
 //"dealer"
+
+var deck = new playingCardDeck();
+
+var wrapper = document.createElement('div');
+wrapper.id = "table";
+
+for (let card of deck.cards) {
+    var element = document.createElement('button');
+
+    element.textContent = card.rank;
+    element.id = card.rank + card.suit;
+
+    //TODO isRed isBlack color need to be added to playingCard card.id
+    if (card.suit === "H" || card.suit === "D"){
+        // console.log("red");
+        element.className = "red-card";
+    } else {
+        // console.log("black");
+        element.className = "black-card";
+    }
+    element.onclick = function() {
+        console.log(this.id);
+    };
+    wrapper.appendChild(element);
+}
+document.body.appendChild(wrapper);
