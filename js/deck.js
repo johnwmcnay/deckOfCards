@@ -64,6 +64,7 @@ class playingCardDeck {
 
     constructor() {
         this.createDeck()
+        this.shuffle();
     }
 
     //returns an array of playingCard objects
@@ -88,8 +89,20 @@ class playingCardDeck {
 
     //removeCard
     //addCard
-    //shuffle() randomizes deck
 
+    //randomizes deck
+    shuffle() {
+        let beforeArray = this.cards;
+        let shuffledArray = [];
+
+        for (let i in this.cards) {
+            let randomNumber = Math.floor(Math.random() * beforeArray.length);
+            console.log(randomNumber);
+            shuffledArray.push(beforeArray[randomNumber]);
+            beforeArray = beforeArray.slice(0, randomNumber).concat(beforeArray.slice(randomNumber + 1));
+        }
+        this.cards = shuffledArray;
+    }
 }
 
 //cardTable = {} object for a card table
@@ -98,26 +111,3 @@ class playingCardDeck {
 
 var deck = new playingCardDeck();
 
-var wrapper = document.createElement('div');
-wrapper.id = "table";
-
-for (let card of deck.cards) {
-    var element = document.createElement('button');
-
-    element.textContent = card.rank;
-    element.id = card.rank + card.suit;
-
-    //TODO isRed isBlack color need to be added to playingCard card.id
-    if (card.suit === "H" || card.suit === "D"){
-        // console.log("red");
-        element.className = "red-card";
-    } else {
-        // console.log("black");
-        element.className = "black-card";
-    }
-    element.onclick = function() {
-        console.log(this.id);
-    };
-    wrapper.appendChild(element);
-}
-document.body.appendChild(wrapper);
