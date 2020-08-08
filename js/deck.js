@@ -105,20 +105,68 @@ class playingCardDeck {
     shuffle() {
         let beforeArray = this.cards;
         let shuffledArray = [];
+        let numberOfCards = this.cards.length;
 
-        for (let i in this.cards) {
+        for (let i = 0; i < numberOfCards; i++) {
             let randomNumber = Math.floor(Math.random() * beforeArray.length);
             shuffledArray.push(beforeArray[randomNumber]);
-            beforeArray = beforeArray.slice(0, randomNumber).concat(beforeArray.slice(randomNumber + 1));
+            beforeArray.splice(randomNumber, 1);
         }
         this.cards = shuffledArray;
     }
    
 }
 
-//cardTable = {} object for a card table
-//seats/players
-//"dealer"
+class pileOfCards {
 
-var deck = new playingCardDeck();
+    pile = [];
+    id = '';
+
+    constructor() {
+        this.pile = [];
+    }
+
+    //takes a card object
+    addToPile(card) {
+        this.pile.push(card);
+    }
+
+    //if no argument or card can't be found, assumes removal of the last element
+    removeFromPile(card) {
+        let cardIndex = this.pile.indexOf(card);
+
+        if (cardIndex !== -1) {
+            this.pile.splice(cardIndex, 1);
+            return true
+        } else if (this.pile.length > 0) {
+            this.pile.pop();
+            return true;
+        }
+        return false;
+    }
+}
+
+
+//TODO: cardTable = {} object for a card table; number of players/seats; game class/object
+//TODO: plus dealer, a location for cards, # of decks
+class cardTable {
+    //players
+    //decks
+    //game rules
+    //piles to put the cards
+
+
+    constructor() {
+
+    }
+
+
+
+}
+
+
+
+//TODO: player object???
+
+
 
