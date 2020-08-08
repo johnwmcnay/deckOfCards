@@ -1,10 +1,28 @@
+//TODO: Turn code into a class
+class Memory {
+    //max rounds/picks
+    //time limit?
+    //game logic
+
+
+    constructor() {
+
+    }
+
+
+
+}
+
+var deck = new playingCardDeck();
 var wrapper = document.createElement('div');
 wrapper.id = "table";
 
 var clicked = [];
 function setAllButtons(state) {
     for (let btn of document.getElementsByTagName("button")) {
-        btn.disabled = !state;
+        if (btn.className.indexOf("locked") === -1) {
+            btn.disabled = !state;
+        }
     }
 }
 
@@ -22,8 +40,7 @@ for (let card of deck.cards) {
     element.textContent = card.isVisible ? card.rank : "";
     element.id = card.rank + card.suit;
 
-    //TODO isRed isBlack color need to be added to playingCard card.id
-    if (card.suit === "H" || card.suit === "D"){
+    if (card.isRed()) {
         // console.log("red");
         element.className = "card red-card";
     } else {
@@ -49,12 +66,17 @@ for (let card of deck.cards) {
 
                 //TODO: lock cards that are flipped after a match
                 console.log("match");
+                let btn1 = document.getElementById(cardOne.id);
+                let btn2 = document.getElementById(cardTwo.id);
+
+                btn1.className += " locked";
+                btn2.className += " locked";
+
             } else {
                 console.log("no match");
                 disableAllButtons();
                 setTimeout(enableAllButtons, 1500);
-                let btn1 = document.getElementById(cardOne.id);
-                let btn2 = document.getElementById(cardTwo.id);
+
                 setTimeout( () => {
                     cardOne.isVisible = false;
                     cardTwo.isVisible = false;
