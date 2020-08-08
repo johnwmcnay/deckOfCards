@@ -61,6 +61,18 @@ class playingCard {
         return !this.isRed();
     }
 
+    //TODO: overload it to take variable amount of arguments
+    static areSameColor(cardOne, cardTwo) {
+        return (cardOne.isBlack() === cardTwo.isBlack());
+    }
+
+    static areSameRank(cardOne, cardTwo) {
+        return (cardOne.rank === cardTwo.rank);
+    }
+
+    static areSoulmates(cardOne, cardTwo) {
+        return (playingCard.areSameRank(cardOne, cardTwo) && playingCard.areSameColor(cardOne, cardTwo) );
+    }
 
     //moveTo moves card to a new location
     //randomize, generate a random card
@@ -71,22 +83,23 @@ class playingCard {
 class playingCardDeck {
 
     id = 'deck'; //property for potential use of multiple decks
-    cards = []; //an array of playingCard objects
+    cards = new pileOfCards(); //an array of playingCard objects
 
     constructor() {
-        this.createDeck()
+        this.createDeck();
         this.shuffle();
+
     }
 
     //returns an array of playingCard objects
     defaultDeck() {
-        let cardArray = [];
+        let newDeck = new pileOfCards();
         for (let suit of ['H', 'S', 'D', 'C']) {
             for (let rank of ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']) {
-                cardArray.push(new playingCard(rank, suit));
+                newDeck.addToPile(new playingCard(rank, suit));
             }
         }
-        return cardArray;
+        return newDeck;
     }
 
     //createDeck takes in a function that stores and stores an array of playingCards
@@ -103,16 +116,16 @@ class playingCardDeck {
 
     //randomizes deck
     shuffle() {
-        let beforeArray = this.cards;
-        let shuffledArray = [];
-        let numberOfCards = this.cards.length;
+        let beforePile = this.cards;
+        let shuffledPile = new pileOfCards();
+        let numberOfCards = beforePile.length;
 
         for (let i = 0; i < numberOfCards; i++) {
-            let randomNumber = Math.floor(Math.random() * beforeArray.length);
-            shuffledArray.push(beforeArray[randomNumber]);
-            beforeArray.splice(randomNumber, 1);
+            let randomNumber = Math.floor(Math.random() * beforePile.length);
+            shuffledPile.addToPile(beforePile.pile[randomNumber]);
+            beforePile.removeFromPile(beforePile.pile[randomNumber]);
         }
-        this.cards = shuffledArray;
+        this.cards = shuffledPile;
     }
    
 }
@@ -120,10 +133,14 @@ class playingCardDeck {
 class pileOfCards {
 
     pile = [];
-    id = '';
+    id = 'pile';
 
     constructor() {
         this.pile = [];
+    }
+
+    get length() {
+        return this.pile.length;
     }
 
     //takes a card object
@@ -154,19 +171,34 @@ class cardTable {
     //decks
     //game rules
     //piles to put the cards
+    piles = [];
+    decks = [];
+    game = {}; //gameRules object
 
+    constructor(game) {
+        this.game = game;
+        this.piles.push(new pileOfCards());
+        this.decks.push(new playingCardDeck());
+    }
 
-    constructor() {
+    gameSetup() {
 
     }
 
 
-
 }
 
-
+// class gameRules {
+//
+//     //holds game logic, and specifications, number of decks/players etc.
+//     constructor() {
+//
+//     }
+// }
 
 //TODO: player object???
+
+let table = new cardTable();
 
 
 
