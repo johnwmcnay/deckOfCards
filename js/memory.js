@@ -1,15 +1,21 @@
 //TODO: Turn code into a class
-class Memory {
+class gameRules {
     //max rounds/picks
-    //time limit?
+    //time limits?
     //game logic
-
+    //number of decks and players
+    id = 'gameRules';
+    numberOfDecks = 0;
+    numberOfPlayers = 0;
+    piles;
 
     constructor() {
 
     }
 
+    setup() {
 
+    }
 
 }
 
@@ -34,7 +40,7 @@ function disableAllButtons() {
     setAllButtons(false);
 }
 
-for (let card of deck.cards) {
+for (let card of deck.cards.pile) {
     var element = document.createElement('button');
 
     element.textContent = card.isVisible ? card.rank : "";
@@ -62,7 +68,7 @@ for (let card of deck.cards) {
             this.disabled = true;
             let cardOne = clicked[0], cardTwo = clicked[1];
 
-            if ( (cardOne.rank === cardTwo.rank) && (cardOne.isBlack() === cardTwo.isBlack()) ){
+            if ( playingCard.areSoulmates(cardOne, cardTwo) ){
 
                 //TODO: lock cards that are flipped after a match
                 console.log("match");
