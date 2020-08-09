@@ -74,65 +74,20 @@ class playingCard {
         return (playingCard.areSameRank(cardOne, cardTwo) && playingCard.areSameColor(cardOne, cardTwo) );
     }
 
+    moveFromTo(pileOne, pileTwo) {
+        pileOne.removeFromPile(this);
+        pileTwo.addToPile(this);
+    }
+
     //moveTo moves card to a new location
     //randomize, generate a random card
     //createCard
 
 }
 
-class playingCardDeck {
-
-    id = 'deck'; //property for potential use of multiple decks
-    cards = new pileOfCards(); //an array of playingCard objects
-
-    constructor() {
-        this.createDeck();
-        this.shuffle();
-
-    }
-
-    //returns an array of playingCard objects
-    defaultDeck() {
-        let newDeck = new pileOfCards();
-        for (let suit of ['H', 'S', 'D', 'C']) {
-            for (let rank of ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']) {
-                newDeck.addToPile(new playingCard(rank, suit));
-            }
-        }
-        return newDeck;
-    }
-
-    //createDeck takes in a function that stores and stores an array of playingCards
-    createDeck(createFunction=this.defaultDeck) {
-        this.cards = createFunction();
-    }
-
-    cardsInDeck() {
-        return this.cards.length;
-    }
-
-    //removeCard
-    //addCard
-
-    //randomizes deck
-    shuffle() {
-        let beforePile = this.cards;
-        let shuffledPile = new pileOfCards();
-        let numberOfCards = beforePile.length;
-
-        for (let i = 0; i < numberOfCards; i++) {
-            let randomNumber = Math.floor(Math.random() * beforePile.length);
-            shuffledPile.addToPile(beforePile.pile[randomNumber]);
-            beforePile.removeFromPile(beforePile.pile[randomNumber]);
-        }
-        this.cards = shuffledPile;
-    }
-   
-}
 
 class pileOfCards {
 
-    pile = [];
     id = 'pile';
 
     constructor() {
@@ -141,6 +96,10 @@ class pileOfCards {
 
     get length() {
         return this.pile.length;
+    }
+
+    getCardByIndex(index) {
+        return this.pile[index];
     }
 
     //takes a card object
@@ -161,6 +120,58 @@ class pileOfCards {
         }
         return false;
     }
+
+    shuffle() {
+        let originalPile = this;
+        let shuffledPile = new pileOfCards();
+        let numberOfCards = originalPile.length;
+
+        for (let i = 0; i < numberOfCards; i++) {
+            let randomNumber = Math.floor(Math.random() * originalPile.length);
+            let randomCard = this.getCardByIndex(randomNumber);
+            //moveFromTo (card, pile object, pile object)
+            randomCard.moveFromTo(originalPile, shuffledPile);
+            // shuffledArray.push(randomCard);
+            // originalArray.splice(randomNumber, 1);
+        }
+        this.pile = shuffledPile.pile;
+    }
+}
+
+class playingCardDeck extends pileOfCards {
+
+    id = 'deck'; //property for potential use of multiple decks
+
+    constructor() {
+        super();
+        this.createDeck();
+        this.shuffle();
+    }
+
+    //returns an array of playingCard objects
+    defaultDeck() {
+        let newDeck = new pileOfCards();
+        for (let suit of ['H', 'S', 'D', 'C']) {
+            for (let rank of ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']) {
+                newDeck.addToPile(new playingCard(rank, suit));
+            }
+        }
+        return newDeck.pile;
+    }
+
+    //createDeck takes in a function that stores and stores an array of playingCards
+    createDeck(createFunction=this.defaultDeck) {
+        this.pile = createFunction();
+    }
+
+
+    // shuffle() {
+    //     super.shuffle();
+    // }
+
+    cardsInDeck() {
+        return this.pile.length;
+    }
 }
 
 
@@ -170,15 +181,17 @@ class cardTable {
     //players
     //decks
     //game rules
-    //piles to put the cards
+    //piles/locations to put the cards
+    //arrangements/configurations cards can be in (i.e. rows/cols)
+    //place card (creates the html element that goes on the page);
+    //sections
+
     piles = [];
-    decks = [];
     game = {}; //gameRules object
 
     constructor(game) {
         this.game = game;
-        this.piles.push(new pileOfCards());
-        this.decks.push(new playingCardDeck());
+        this.piles.push(new playingCardDeck());
     }
 
     gameSetup() {
