@@ -19,7 +19,7 @@ class gameRules {
 
 }
 
-var deck = new playingCardDeck();
+var deck = table.piles[0]
 var wrapper = document.createElement('div');
 wrapper.id = "table";
 
@@ -40,7 +40,7 @@ function disableAllButtons() {
     setAllButtons(false);
 }
 
-for (let card of deck.cards.pile) {
+for (let card of deck.pile) {
     var element = document.createElement('button');
 
     element.textContent = card.isVisible ? card.rank : "";

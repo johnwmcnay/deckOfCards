@@ -4,6 +4,10 @@
 
 .card {
     float: left;
+    margin: 10px;
+    width: 40px;
+    height: 60px;
+    font-size: 20px;
 }
 
 .black-card {
@@ -14,13 +18,13 @@
 /*    alignment: center;*/
 /*}*/
 
-button {
-    margin: 10px;
-    width: 40px;
-    height: 60px;
-    font-size: 20px;
-}
+/*button {*/
+/*    margin: 10px;*/
+/*    width: 40px;*/
+/*    height: 60px;*/
+/*    font-size: 20px;*/
+/*}*/
 
-button:nth-of-type(13n+1) {
+.card:nth-of-type(13n+1) {
     clear: left;
 }
