@@ -18,6 +18,8 @@ class gameRules {
     }
 
 }
+//intentionally keeping code from running without commenting it;
+(function() {
 
 var deck = table.piles[0]
 var wrapper = document.createElement('div');
@@ -96,3 +98,5 @@ for (let card of deck.pile) {
     wrapper.appendChild(element);
 }
 document.body.appendChild(wrapper);
+
+});
