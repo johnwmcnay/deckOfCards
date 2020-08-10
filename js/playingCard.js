@@ -1,6 +1,7 @@
 class playingCard {
 
-    isVisible = false;
+    isVisible = false; //deals with whether the card is even displayed
+    isFaceUp = false;
     // belongsTo = {};
     // currentLocation = {};
 
@@ -12,8 +13,9 @@ class playingCard {
 
     //turns the card over, toggling isVisible and returning the new value
     flip() {
-        this.isVisible = !this.isVisible;
-        return this.isVisible;
+        //TODO: change flip to deal with another flag
+        this.isFaceUp = !this.isFaceUp;
+        return this.isFaceUp;
     }
 
     rankAsText() {

@@ -44,26 +44,35 @@ class cardTable {
 
     //deals the top card from the "dealer" pile to another pile
     //TODO: deal face up or face down
-    deal(pileID) {
+    deal(pileID, faceUp= true) {
         let card = this.pile("dealer").topCard();
         card.isVisible = true;
+        card.isFaceUp = faceUp;
         this.move(card, "dealer", pileID);
     }
 
+    dealFaceUp (pileID) {
+        this.deal(pileID);
+    }
+
+    dealFaceDown (pileID) {
+        this.deal(pileID, false);
+    }
+
     //do dealRound for 'numOfRounds' times
-    dealRounds(numOfRounds= 1) {
+    dealRounds(numOfRounds= 1, faceUp= true) {
         for (let round = 1; round <= numOfRounds; round++){
-            this.dealRound();
+            this.dealRound(faceUp);
         }
     }
 
     //going in order dealing the top card to each player
-    dealRound() {
+    dealRound(faceUp) {
         //TODO: add 'active/in' players and 'inactive/out' players
 
         for (let key of Object.keys(this.piles)) {
             if (key !== "dealer") {
-                this.deal(this.piles[key].id);
+                this.deal(this.piles[key].id, faceUp);
             }
         }
     }
@@ -89,6 +98,8 @@ class cardTable {
             if (!element) {
                 element = cardUI.createCard(cardData, pileTwoID);
             }
+            //TODO: hard-coded for p1, should be dynamic
+            element.textContent = cardData.isFaceUp && toPile.id === "p1" ? cardData.rank : "";
 
             element.className = element.className.replace(fromPile.id, toPile.id);
             element.remove();

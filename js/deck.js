@@ -385,11 +385,14 @@
 
 let table = new cardTable();
 
+//TODO: add function to create a default dealer
 table.add(new cardPlayer("dealer", playingCardDeck.defaultDeck));
 table.shuffle();
+
 table.newPlayers(4);
 table.dealRounds(2);
 
 //TODO: create high-card game logic
 //TODO: add interface information: name, score, money/chips (for wager games)
 //TODO: allow dealer to deal from multiple piles/decks
+//TODO: allow player to only see their cards, like in five-card draw poker -> **make dynamic**
