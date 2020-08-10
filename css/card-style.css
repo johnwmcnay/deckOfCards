@@ -25,6 +25,6 @@
 /*    font-size: 20px;*/
 /*}*/
 
-.card:nth-of-type(13n+1) {
-    clear: left;
-}
+/*.card:nth-of-type(13n+1) {*/
+/*    clear: left;*/
+/*}*/

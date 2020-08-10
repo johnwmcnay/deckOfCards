@@ -9,7 +9,7 @@ class playingCard {
     constructor(rank, suit) {
         this.rank = rank;
         this.suit = suit;
-        this.id = rank + "." + suit;
+        this.id = suit + rank;
     }
 
     //turns the card over, toggling isVisible and returning the new value
@@ -163,10 +163,10 @@ class pileOfCards {
     //returns an array of cards
     getCards(cardStr) {
         let cardsToReturn = [];
-        let cardArray = cardStr.split(" ");  //"A.x K.x" -> [ ["A.x"], ["K.x"] ]
+        let cardArray = cardStr.split(" ");  //"A-x K-x" -> [ ["A-x"], ["K-x"] ]
 
         for (let cardType of cardArray) {
-            let cardInfo = cardType.split(".");
+            let cardInfo = cardType.split("-");
             let cardRank = cardInfo[0];
             let cardSuit = cardInfo[1];
 
@@ -250,7 +250,9 @@ class cardTable {
 
     //takes a pile object and pushes it into an array
     add(pile) {
-        this.piles[pile.id] = pile;
+        this.piles[pile.id] = pile
+        //draw to screen
+        cardUI.drawToScreen(pile);
     }
 
     shuffle(id) {
@@ -271,10 +273,16 @@ class cardTable {
 
             for (let card of cardsToMove) {
                 card.moveFromTo(fromPile, toPile);
+                // TODO: move update into cardUI
+                let element = document.getElementById(card.id)
+                element.className = element.className.replace(fromPile.id, toPile.id);
             }
         } else {
             cardData.moveFromTo(fromPile, toPile);
+            let element = document.getElementsByClassName(cardData.id + " " + fromPile.id)[0];
+            element.className = element.className.replace(fromPile.id, toPile.id);
         }
+
     }
 }
 
@@ -294,6 +302,34 @@ class cardUI {
 
     }
 
+    static drawToScreen(deck) {
+
+     let wrapper = document.createElement("div");
+        for (let card of deck.pile) {
+            let element = document.createElement("button");
+
+            //element.textContent = card.isVisible ? card.rank : "";
+            element.textContent = card.rank; //TODO: for testing, remove this line when necessary
+            element.className = card.id;
+
+            if (card.isRed()) {
+                element.className += " card red-card ";
+            } else {
+                element.className += " card black-card ";
+            }
+            element.className += deck.id
+
+            element.onclick = function() {
+                console.log(this.id) };
+
+            wrapper.appendChild(element);
+        }
+        document.body.appendChild(wrapper);
+    }
+
+    static updateScreen(pile) {
+        // document.getEl
+    }
 }
 
 
