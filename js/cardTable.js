@@ -43,12 +43,19 @@ class cardTable {
     }
 
     //deals the top card from the "dealer" pile to another pile
-    //TODO: deal face up or face down
     deal(pileID, faceUp= true) {
-        let card = this.pile("dealer").topCard();
+        this.dealFromTo("dealer", pileID, faceUp);
+        // let card = this.pile("dealer").topCard();
+        // card.isVisible = true;
+        // card.isFaceUp = faceUp;
+        // this.move(card, "dealer", pileID);
+    }
+
+    dealFromTo(pileOneID, pileTwoID, faceUp = true) {
+        let card = this.pile(pileOneID).topCard();
         card.isVisible = true;
         card.isFaceUp = faceUp;
-        this.move(card, "dealer", pileID);
+        this.move(card, pileOneID, pileTwoID);
     }
 
     dealFaceUp (pileID) {
@@ -91,19 +98,7 @@ class cardTable {
                 element.className = element.className.replace(fromPile.id, toPile.id);
             }
         } else {
-            cardData.moveFromTo(fromPile, toPile);
-            //TODO: integrate into cardUI
-            let element = document.getElementsByClassName(cardData.id + " " + fromPile.id)[0];
-
-            if (!element) {
-                element = cardUI.createCard(cardData, pileTwoID);
-            }
-            //TODO: hard-coded for p1, should be dynamic
-            element.textContent = cardData.isFaceUp && toPile.id === "p1" ? cardData.rank : "";
-
-            element.className = element.className.replace(fromPile.id, toPile.id);
-            element.remove();
-            document.getElementById(toPile.id).appendChild(element);
+            cardUI.relocate(cardData, fromPile, toPile);
         }
 
     }

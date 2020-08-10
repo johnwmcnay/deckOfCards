@@ -394,5 +394,5 @@ table.dealRounds(2);
 
 //TODO: create high-card game logic
 //TODO: add interface information: name, score, money/chips (for wager games)
-//TODO: allow dealer to deal from multiple piles/decks
+//TODO: allow dealer to deal from multiple piles/decks; dealFromTo handles this mostly
 //TODO: allow player to only see their cards, like in five-card draw poker -> **make dynamic**
