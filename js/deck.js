@@ -179,7 +179,6 @@ class pileOfCards {
             }
         }
         return cardsToReturn;
-
     }
 }
 
@@ -231,9 +230,15 @@ class cardTable {
     piles = []; //an array of piles
     game = {}; //gameRules object
 
-    constructor(game) {
+    constructor(id='table', game) {
         this.game = game;
-        //this.piles.push(new playingCardDeck('deck'));
+        this.id = id;
+
+        let element = document.createElement("div");
+        element.id = id;
+        document.body.appendChild(element);
+
+
     }
 
     gameSetup() {
@@ -244,15 +249,17 @@ class cardTable {
         return this.piles[id];
     }
 
-    // showPiles() {
-    //     return Object.values(this.piles);
-    // }
-
     //takes a pile object and pushes it into an array
     add(pile) {
         this.piles[pile.id] = pile
         //draw to screen
-        cardUI.drawToScreen(pile);
+        cardUI.drawToTable(pile);
+    }
+
+    newPlayers(numOfPlayers) {
+        for (let i = 1; i <= numOfPlayers; i++) {
+            this.add(new cardPlayer("p" + i));
+        }
     }
 
     shuffle(id) {
@@ -260,8 +267,11 @@ class cardTable {
     }
 
     //deals the top card from the "dealer" pile to another pile
+    //TODO: deal face up or face down
     deal(pileID) {
-        this.move(this.pile("dealer").topCard(), "dealer", pileID);
+        let card = this.pile("dealer").topCard();
+        card.isVisible = true;
+        this.move(card, "dealer", pileID);
     }
 
     move(cardData, pileOneID, pileTwoID) {
@@ -279,8 +289,16 @@ class cardTable {
             }
         } else {
             cardData.moveFromTo(fromPile, toPile);
+            //TODO: integrate into cardUI
             let element = document.getElementsByClassName(cardData.id + " " + fromPile.id)[0];
+
+            if (!element) {
+                element = cardUI.createCard(cardData, pileTwoID);
+            }
+
             element.className = element.className.replace(fromPile.id, toPile.id);
+            element.remove();
+            document.getElementById(toPile.id).appendChild(element);
         }
 
     }
@@ -302,29 +320,39 @@ class cardUI {
 
     }
 
-    static drawToScreen(deck) {
+    static drawToTable(pile, tableID="table") {
 
      let wrapper = document.createElement("div");
-        for (let card of deck.pile) {
-            let element = document.createElement("button");
+     wrapper.id = pile.id;
+        for (let card of pile.pile) {
 
-            //element.textContent = card.isVisible ? card.rank : "";
-            element.textContent = card.rank; //TODO: for testing, remove this line when necessary
-            element.className = card.id;
+            if (card.isVisible) {
+                let element = cardUI.createCard(card, pile.id);
 
-            if (card.isRed()) {
-                element.className += " card red-card ";
-            } else {
-                element.className += " card black-card ";
+                wrapper.appendChild(element);
             }
-            element.className += deck.id
-
-            element.onclick = function() {
-                console.log(this.id) };
-
-            wrapper.appendChild(element);
         }
-        document.body.appendChild(wrapper);
+        document.getElementById(tableID).appendChild(wrapper);
+    }
+
+    static createCard(card, deckID) {
+        let element = document.createElement("button");
+
+        //element.textContent = card.isVisible ? card.rank : "";
+        element.textContent = card.rank; //TODO: for testing, remove this line when necessary
+        element.className = card.id;
+
+        if (card.isRed()) {
+            element.className += " card red-card ";
+        } else {
+            element.className += " card black-card ";
+        }
+        element.className += deckID;
+
+        element.onclick = function() {
+            console.log(card.id) };
+
+        return element;
     }
 
     static updateScreen(pile) {
@@ -340,21 +368,12 @@ let table = new cardTable();
 
 table.add(new cardPlayer("dealer", playingCardDeck.defaultDeck));
 table.shuffle("dealer");
+table.newPlayers(4);
 
-// table.add(new pileOfCards("memory-field"));
-// table.move("A.S 3.x 5.D", "dealer", "memory-field");
-table.add(new cardPlayer("p1"));
-table.add(new cardPlayer("p2"));
-table.add(new cardPlayer("p3"));
-table.add(new cardPlayer("p4"));
-
-
+//TODO: deal one card to all players function
 table.deal("p1");
 table.deal("p2");
 table.deal("p3");
 table.deal("p4");
+
 //TODO: create high-card game logic
-
-//when to draw the cards
-
-//how to know which card to move; user input (i.e. buttons) or game rules;

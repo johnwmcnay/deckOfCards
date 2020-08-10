@@ -10,6 +10,32 @@
     font-size: 20px;
 }
 
+#dealer {
+    float: left;
+    width: 50%;
+    height: 50%;
+}
+
+#p1 {
+    float: left;
+    width: 50%;
+    height: 50%;
+}
+
+#p2 {
+    float: right;
+}
+
+#p3 {
+    float: left;
+    width: 50%;
+    height: 50%;
+}
+
+#p4 {
+    float: right;
+}
+
 .black-card {
     color: black;
 }
