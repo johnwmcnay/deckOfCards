@@ -2,17 +2,14 @@
 //cards have a suit, rank, visibility, an owner, and a current location
 class playingCard {
 
-    rank = ''; //2 3 4 5 6 7 8 9 10 J K Q A Joker
-    suit = ''; //possible suits H S D C
-    id = '';
     isVisible = false;
-    belongsTo = {};
-    currentLocation = {};
+    // belongsTo = {};
+    // currentLocation = {};
 
     constructor(rank, suit) {
         this.rank = rank;
         this.suit = suit;
-        this.id = rank + suit;
+        this.id = rank + "." + suit;
     }
 
     //turns the card over, toggling isVisible and returning the new value
@@ -75,29 +72,38 @@ class playingCard {
     }
 
     moveFromTo(pileOne, pileTwo) {
-        pileOne.removeFromPile(this);
-        this.addTo(pileTwo);
+        pileOne.remove(this);
+        pileTwo.add(this);
     }
 
     addTo(pile) {
         pile.pile.push(this);
     }
 
-    //moveTo moves card to a new location
-    //randomize, generate a random card
-    //createCard
+    removeFrom(pile) {
+        if (pile.hasCard(this)) {
+            let cardIndex = pile.pile.indexOf(this);
 
+            if (cardIndex !== -1) {
+                pile.pile.splice(cardIndex, 1);
+                return true;
+            } else if (pile.length > 0) {
+                pile.pile.pop();
+                return true;
+            }
+            return false;
+        }
+    }
 }
 
-//an area really is just a pileOfCards
 class pileOfCards {
 
-    id = 'pile';
     maxCards = 0;
     minCards = 0;
 
-    constructor() {
+    constructor(id= 'pile') {
         this.pile = [];
+        this.id = id;
     }
 
     get length() {
@@ -108,22 +114,33 @@ class pileOfCards {
         return this.pile[index];
     }
 
-    //if no argument or card can't be found, assumes removal of the last element
-    removeFromPile(card) {
-        let cardIndex = this.pile.indexOf(card);
-
-        if (cardIndex !== -1) {
-            this.pile.splice(cardIndex, 1);
-            return true;
-        } else if (this.pile.length > 0) {
-            this.pile.pop();
-            return true;
+    hasCard(card) {
+        for (let i of this.pile) {
+            if (i.id === card.id) {
+                return true;
+            }
         }
         return false;
     }
 
-    makePile(createFunction) {
-        this.pile = createFunction();
+    remove(card) {
+        card.removeFrom(this);
+    }
+
+    add(card) {
+        card.addTo(this);
+    }
+
+    fill(fillData) {
+        if (typeof fillData === "function") {
+            this.pile = fillData();
+        } else if (Array.isArray(fillData)) {
+            // for (let card of fillData) {
+            //     this.pile
+            // }
+        } else {
+            console.log("...");
+        }
     }
 
     shuffle() {
@@ -138,6 +155,28 @@ class pileOfCards {
         }
         this.pile = shuffledPile.pile;
     }
+
+    //returns an array of cards
+    getCards(cardStr) {
+        let cardsToReturn = [];
+        let cardArray = cardStr.split(" ");  //"A.x K.x" -> [ ["A.x"], ["K.x"] ]
+
+        for (let cardType of cardArray) {
+            let cardInfo = cardType.split(".");
+            let cardRank = cardInfo[0];
+            let cardSuit = cardInfo[1];
+
+            for (let card of this.pile) {
+                if (card.rank === cardRank || cardRank === "x") {
+                    if (card.suit === cardSuit || cardSuit === "x") {
+                        cardsToReturn.push(card);
+                    }
+                }
+            }
+        }
+        return cardsToReturn;
+
+    }
 }
 
 class playingCardDeck extends pileOfCards {
@@ -145,7 +184,7 @@ class playingCardDeck extends pileOfCards {
     constructor(id='deck') {
         super();
         this.id = id;
-        this.makePile(playingCardDeck.defaultDeck);
+        this.fill(playingCardDeck.defaultDeck);
         this.shuffle();
     }
 
@@ -165,18 +204,24 @@ class playingCardDeck extends pileOfCards {
         let randomNumber = Math.floor(Math.random() * 52);
         let cardArray = playingCardDeck.defaultDeck();
         return cardArray[randomNumber];
-
     };
 }
 
+class cardPlayer extends pileOfCards {
+    //access to piles
+    //viewing rights
+
+    constructor(id = 'p0', cardData) {
+        super(id);
+        this.pile = []
+        this.fill(cardData);
+    }
+}
 
 //TODO: cardTable = {} object for a card table; number of players/seats; game class/object
 //TODO: plus dealer, a location for cards, # of piles
 class cardTable {
-    //players
-    //decks
     //game rules
-    //piles/locations to put the cards
     //place card (creates the html element that goes on the page);
 
     piles = []; //an array of piles
@@ -184,16 +229,38 @@ class cardTable {
 
     constructor(game) {
         this.game = game;
-        this.piles.push(new playingCardDeck('deck0'));
+        //this.piles.push(new playingCardDeck('deck'));
     }
 
     gameSetup() {
 
     }
 
+    pile(id) {
+        return this.piles[id];
+    }
+
+    // showPiles() {
+    //     return Object.values(this.piles);
+    // }
+
     //takes a pile object and pushes it into an array
-    addPile(pile) {
-        this.piles.push(pile);
+    add(pile) {
+        this.piles[pile.id] = pile;
+    }
+
+    shuffle(id) {
+        this.pile(id).shuffle();
+    }
+
+    move(cardStr, pileOneID, pileTwoID) {
+        let fromPile = this.pile(pileOneID);
+        let toPile = this.pile(pileTwoID);
+        let cardsToMove = fromPile.getCards(cardStr);
+
+        for (let card of cardsToMove) {
+            card.moveFromTo(fromPile, toPile);
+        }
     }
 }
 
@@ -207,16 +274,17 @@ class cardTable {
 
 //TODO: UI class: arrangements/configurations cards can be in (i.e. rows/cols), sections
 
-
-//TODO: player object???
-
 //memoryGame = new gameRules(memory);
 //table = new CardTable(memoryGame);
+
 let table = new cardTable();
-table.addPile(new playingCardDeck("deck1"));
-table.addPile(new playingCardDeck("deck2"));
+table.add(new cardPlayer("dealer", playingCardDeck.defaultDeck));
+table.shuffle("dealer");
+table.add(new pileOfCards("memory-field"));
+//move+deal cards to another player/location/pile
+//TODO: table.moveCardFromTo(card, "dealer", "memory-field");
+//      move("card.id").fromTo("dealer", "memory-field");
+table.pile("dealer");
+table.move("A.x", "dealer", "memory-field");
 
 //how to know which card to move; user input (i.e. buttons) or game rules;
-//table.move card from one pile to another
-
-
