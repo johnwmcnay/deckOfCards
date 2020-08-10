@@ -7,4 +7,10 @@ class cardPlayer extends pileOfCards {
         this.pile = []
         this.fill(cardData);
     }
+
+    static cannotLookAt(cardArray) {
+        for (let card of cardArray) {
+            card.ownerCanLook = false;
+        }
+    }
 }

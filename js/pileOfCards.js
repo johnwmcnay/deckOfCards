@@ -66,10 +66,10 @@ class pileOfCards {
     //returns an array of cards
     getCards(cardStr) {
         let cardsToReturn = [];
-        let cardArray = cardStr.split(" ");  //"A-x K-x" -> [ ["A-x"], ["K-x"] ]
+        let cardArray = cardStr.split(" ");  //"A.x K.x" -> [ ["A.x"], ["K.x"] ]
 
         for (let cardType of cardArray) {
-            let cardInfo = cardType.split("-");
+            let cardInfo = cardType.split(".");
             let cardRank = cardInfo[0];
             let cardSuit = cardInfo[1];
 

@@ -389,8 +389,17 @@ let table = new cardTable();
 table.add(new cardPlayer("dealer", playingCardDeck.defaultDeck));
 table.shuffle();
 
-table.newPlayers(4);
-table.dealRounds(2);
+// table.newPlayers(4);
+// table.dealRounds(2);
+
+table.newPlayers(1);
+
+table.transferAndHide("2.x 3.x 5.x 7.x", "dealer", "p1")
+//still needs to update
+
+table.shuffle("p1"); //TODO: gets shuffled but doesn't update on the screen
+//still needs to update
+
 
 //TODO: create high-card game logic
 //TODO: add interface information: name, score, money/chips (for wager games)
