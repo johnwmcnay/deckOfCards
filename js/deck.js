@@ -139,8 +139,12 @@ class pileOfCards {
             //     this.pile
             // }
         } else {
-            console.log("...");
+            // console.log("...");
         }
+    }
+
+    topCard () {
+        return this.pile[this.pile.length - 1];
     }
 
     shuffle() {
@@ -253,16 +257,27 @@ class cardTable {
         this.pile(id).shuffle();
     }
 
-    move(cardStr, pileOneID, pileTwoID) {
+    //deals the top card from the "dealer" pile to another pile
+    deal(pileID) {
+        this.move(this.pile("dealer").topCard(), "dealer", pileID);
+    }
+
+    move(cardData, pileOneID, pileTwoID) {
         let fromPile = this.pile(pileOneID);
         let toPile = this.pile(pileTwoID);
-        let cardsToMove = fromPile.getCards(cardStr);
 
-        for (let card of cardsToMove) {
-            card.moveFromTo(fromPile, toPile);
+        if (cardData === typeof "string") {
+            let cardsToMove = fromPile.getCards(cardData);
+
+            for (let card of cardsToMove) {
+                card.moveFromTo(fromPile, toPile);
+            }
+        } else {
+            cardData.moveFromTo(fromPile, toPile);
         }
     }
 }
+
 
 // class gameRules {
 //
@@ -273,18 +288,37 @@ class cardTable {
 // }
 
 //TODO: UI class: arrangements/configurations cards can be in (i.e. rows/cols), sections
+class cardUI {
+
+    constructor() {
+
+    }
+
+}
+
 
 //memoryGame = new gameRules(memory);
 //table = new CardTable(memoryGame);
 
 let table = new cardTable();
+
 table.add(new cardPlayer("dealer", playingCardDeck.defaultDeck));
 table.shuffle("dealer");
-table.add(new pileOfCards("memory-field"));
-//move+deal cards to another player/location/pile
-//TODO: table.moveCardFromTo(card, "dealer", "memory-field");
-//      move("card.id").fromTo("dealer", "memory-field");
-table.pile("dealer");
-table.move("A.x", "dealer", "memory-field");
+
+// table.add(new pileOfCards("memory-field"));
+// table.move("A.S 3.x 5.D", "dealer", "memory-field");
+table.add(new cardPlayer("p1"));
+table.add(new cardPlayer("p2"));
+table.add(new cardPlayer("p3"));
+table.add(new cardPlayer("p4"));
+
+
+table.deal("p1");
+table.deal("p2");
+table.deal("p3");
+table.deal("p4");
+//TODO: create high-card game logic
+
+//when to draw the cards
 
 //how to know which card to move; user input (i.e. buttons) or game rules;
