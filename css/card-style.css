@@ -18,9 +18,13 @@
 
 #p1 {
     float: left;
-    width: 50%;
+    width: auto;
     height: 50%;
     background-color: lightgray;
+}
+
+button:nth-of-type(4n + 1) {
+    clear: left;
 }
 
 #p2 {
@@ -48,9 +52,14 @@
     color: black;
 }
 
-/*.table {*/
-/*    alignment: center;*/
-/*}*/
+#table {
+    text-align: center;
+    background-color: forestgreen;
+    max-width: 500px;
+    min-height: 500px;
+    align-content: center;
+    margin: 0 auto;
+}
 
 /*button {*/
 /*    margin: 10px;*/

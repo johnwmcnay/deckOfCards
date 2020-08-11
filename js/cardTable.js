@@ -1,6 +1,4 @@
 class cardTable {
-    //game rules
-    //place card (creates the html element that goes on the page);
 
     piles = []; //an array of piles
     game = {}; //gameRules object
@@ -12,8 +10,15 @@ class cardTable {
         let element = document.createElement("div");
         element.id = id;
         document.body.appendChild(element);
+        this.initializeDealer();
+    }
 
-
+    initializeDealer(pileID = "dealer") {
+        let dealer = new cardPlayer(pileID, playingCardDeck.defaultDeck);
+        dealer.isActive = false;
+        this.add(dealer);
+        this.pile("dealer").isActive = false;
+        this.shuffle("dealer");
     }
 
     gameSetup() {
@@ -25,10 +30,9 @@ class cardTable {
     }
 
     //takes a pile object and pushes it into an array
-    add(pile) {
-        this.piles[pile.id] = pile
-        //draw to screen
-        cardUI.drawToTable(pile);
+    add(newPile) {
+        this.piles[newPile.id] = newPile;
+        cardUI.drawToTable(newPile);
     }
 
     newPlayers(numOfPlayers) {
@@ -46,10 +50,6 @@ class cardTable {
     //deals the top card from the "dealer" pile to another pile
     deal(pileID, faceUp= true) {
         this.dealFromTo("dealer", pileID, faceUp);
-        // let card = this.pile("dealer").topCard();
-        // card.isVisible = true;
-        // card.isFaceUp = faceUp;
-        // this.move(card, "dealer", pileID);
     }
 
     //deal assumes giving the top card

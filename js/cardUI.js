@@ -5,25 +5,26 @@ class cardUI {
     }
 
     static drawToTable(pile, tableID="table") {
+        if (!pile.isActive) {
+            return false;
+        }
 
         let wrapper = document.getElementById(pile.id);
 
         if (wrapper === null) {
-            console.log(pile.id, "HTML element created");
             wrapper = document.createElement("div");
             wrapper.id = pile.id;
         } else {
             wrapper.innerHTML = "";
         }
-        // console.log(pile.pile);
-        for (let card of pile.pile) {
 
-            if (pile.isActive) {
-                let element = cardUI.createCard(card, pile.id);
-                wrapper.appendChild(element);
-            }
+        for (let card of pile.pile) {
+            let element = cardUI.createCard(card, pile.id);
+            wrapper.appendChild(element);
         }
         document.getElementById(tableID).appendChild(wrapper);
+
+        return true;
     }
 
     static createCard(card, deckID) {
@@ -61,10 +62,4 @@ class cardUI {
         element.remove();
         document.getElementById(toPile.id).appendChild(element);
     }
-
-    //TODO: updatePile
-
-    // static updateScreen(pile, tableID="table") {
-    //     this.drawToTable(pile);
-    // }
 }
