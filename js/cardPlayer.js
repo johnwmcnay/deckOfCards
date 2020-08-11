@@ -5,6 +5,7 @@ class cardPlayer extends pileOfCards {
     constructor(id = 'p0', cardData) {
         super(id);
         this.pile = []
+        this.isActive = true
         this.fill(cardData);
     }
 

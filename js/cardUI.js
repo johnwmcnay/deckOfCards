@@ -6,13 +6,20 @@ class cardUI {
 
     static drawToTable(pile, tableID="table") {
 
-        let wrapper = document.createElement("div");
-        wrapper.id = pile.id;
+        let wrapper = document.getElementById(pile.id);
+
+        if (wrapper === null) {
+            console.log(pile.id, "HTML element created");
+            wrapper = document.createElement("div");
+            wrapper.id = pile.id;
+        } else {
+            wrapper.innerHTML = "";
+        }
+        // console.log(pile.pile);
         for (let card of pile.pile) {
 
-            if (card.isVisible) {
+            if (pile.isActive) {
                 let element = cardUI.createCard(card, pile.id);
-
                 wrapper.appendChild(element);
             }
         }
@@ -45,7 +52,7 @@ class cardUI {
         let element = document.getElementsByClassName(card.id + " " + fromPile.id)[0];
 
         if (!element) {
-            element = cardUI.createCard(card, toPile.id);
+            element = this.createCard(card, toPile.id);
         }
         //TODO: hard-coded for p1, should be dynamic;
         element.textContent = card.isFaceUp || (card.ownerCanLook && toPile.id === "p1") ? card.rank : "";
@@ -57,7 +64,7 @@ class cardUI {
 
     //TODO: updatePile
 
-    static updateScreen(pile) {
-        // document.getEl
-    }
+    // static updateScreen(pile, tableID="table") {
+    //     this.drawToTable(pile);
+    // }
 }

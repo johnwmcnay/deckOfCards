@@ -20,20 +20,28 @@
     float: left;
     width: 50%;
     height: 50%;
+    background-color: lightgray;
 }
 
 #p2 {
     float: right;
+    width: 50%;
+    height: 50%;
+    background-color: lightyellow;
 }
 
 #p3 {
     float: left;
     width: 50%;
     height: 50%;
+    background-color: lightgreen;
 }
 
 #p4 {
     float: right;
+    width: 50%;
+    height: 50%;
+    background-color: lightcyan;
 }
 
 .black-card {

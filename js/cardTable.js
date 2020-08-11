@@ -40,7 +40,7 @@ class cardTable {
     //shuffles the dealer's deck by default, otherwise it takes a pileID string
     shuffle(id="dealer") {
         this.pile(id).shuffle();
-        //update cards already on table
+        cardUI.drawToTable(this.pile(id));
     }
 
     //deals the top card from the "dealer" pile to another pile
@@ -87,24 +87,26 @@ class cardTable {
     }
 
     //TODO: reorganize function
-    transfer(cardData, pileOneID, pileTwoID) {
+    transfer(cardData, pileOneID, pileTwoID, canLook= true) {
         let fromPile = this.pile(pileOneID);
         let toPile = this.pile(pileTwoID);
+        let cardsToMove = [];
 
         if (typeof cardData === "string") {
-            let cardsToMove = fromPile.getCards(cardData);
-            for (let card of cardsToMove) {
-                cardUI.relocate(card, fromPile, toPile);
-            }
-            return cardsToMove;
+            cardsToMove = fromPile.getCards(cardData);
         } else {
-            cardUI.relocate(cardData, fromPile, toPile);
-            return cardData;
+            cardsToMove = [cardData];
         }
+        for (let card of cardsToMove) {
+            if (!canLook) {
+                card.ownerCanLook = false;
+            }
+            cardUI.relocate(card, fromPile, toPile);
+        }
+        return cardsToMove;
     }
 
     transferAndHide(cardData, pileOneID, pileTwoID) {
-        let newCards = this.transfer(cardData, pileOneID, pileTwoID);
-        cardPlayer.cannotLookAt(newCards);
+        this.transfer(cardData, pileOneID, pileTwoID, false);
     }
 }

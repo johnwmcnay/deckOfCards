@@ -2,7 +2,7 @@ class playingCard {
 
     isVisible = false; //deals with whether the card is even displayed
     isFaceUp = false;
-    ownerCanLook = true;
+    ownerCanLook = true; //TODO: can be more dynamic i.e. an allowed list
     // belongsTo = {};
     // currentLocation = {};
 
