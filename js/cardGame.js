@@ -5,6 +5,7 @@ class cardGame extends cardTable {
 
     constructor(id='game') {
         super();
+        //TODO: set an interval
 
         //TODO: addTable
         this.id = id;
@@ -15,18 +16,19 @@ class cardGame extends cardTable {
     static actionOnClick(card, deck) {
         console.log(card);
         console.log(deck);
-        card.flip()
+        card.flip();
+        card.isDisabled = true;
         cardUI.drawToTable(deck, "table");
+        //TODO: next step
     }
 
     //memory logic
     gameLoop () {
-        //wait for card pick
-
-        //allow user to pick a card
-        //allow user to pick a second card
-        //check to see if they match,
-        //repeat
+        //TODO: waitForClick() or waitForInput()
+        //TODO: waitForClick()
+        //TODO: game logic, comparison, match
+        //TODO: flip cards back over or not
+        //TODO: end game or repeat
     }
 }
 

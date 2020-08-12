@@ -4,7 +4,7 @@ class cardUI {
 
     }
 
-    static drawToTable(pile, tableID="table") {
+    static drawToTable(pile, tableID = "table") {
         if (!pile.isActive) {
             return false;
         }
@@ -30,8 +30,9 @@ class cardUI {
     static createCard(card, deck) {
         let element = document.createElement("button");
 
-        element.textContent = (card.isFaceUp || card.ownerCanLook) ? card.rank: "";
+        element.textContent = (card.isFaceUp || card.ownerCanLook) ? card.rank : " ";
         element.className = card.id;
+        element.disabled = card.isDisabled;
 
         if (card.isRed()) {
             element.className += " card red-card ";
@@ -40,10 +41,9 @@ class cardUI {
         }
         element.className += deck.id;
 
-        element.onclick = function() {
+        element.onclick = function () {
             cardGame.actionOnClick(card, deck);
-        };
-
+        }
         return element;
     }
 
@@ -63,4 +63,8 @@ class cardUI {
         element.remove();
         document.getElementById(toPile.id).appendChild(element);
     }
+
+    // static disableElement(element) {
+    //     element.disabled = true;
+    // }
 }
