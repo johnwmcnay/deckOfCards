@@ -41,7 +41,8 @@ class cardUI {
         element.className += deckID;
 
         element.onclick = function() {
-            console.log(card.id) };
+            cardGame.actionOnClick(card, deckID);
+        };
 
         return element;
     }

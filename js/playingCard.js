@@ -3,7 +3,7 @@ class playingCard {
     isVisible = false; //deals with whether the card is even displayed
     isFaceUp = false;
     ownerCanLook = true; //TODO: can be more dynamic i.e. an allowed list
-    // belongsTo = {};
+    belongsTo = "";
     // currentLocation = {};
 
     constructor(rank, suit) {
@@ -12,7 +12,7 @@ class playingCard {
         this.id = suit + rank;
     }
 
-    //turns the card over, toggling isVisible and returning the new value
+    //turns the card over, toggling isFaceUp and returning the new value
     flip() {
         //TODO: change flip to deal with another flag
         this.isFaceUp = !this.isFaceUp;

@@ -1,9 +1,10 @@
-class cardTable {
+class cardTable extends cardGame {
 
     piles = []; //an array of piles
     game = {}; //gameRules object
 
     constructor(id='table', game) {
+        super();
         this.game = game;
         this.id = id;
 
@@ -17,7 +18,7 @@ class cardTable {
         let dealer = new cardPlayer(pileID, playingCardDeck.defaultDeck);
         dealer.isActive = false;
         this.add(dealer);
-        this.pile("dealer").isActive = false;
+        // this.pile("dealer").isActive = false;
         this.shuffle("dealer");
     }
 
@@ -100,6 +101,7 @@ class cardTable {
         for (let card of cardsToMove) {
             if (!canLook) {
                 card.ownerCanLook = false;
+                card.belongsTo = pileTwoID;
             }
             cardUI.relocate(card, fromPile, toPile);
         }
