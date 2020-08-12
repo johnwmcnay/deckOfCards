@@ -8,15 +8,15 @@
 //TODO: allow dealer to deal from multiple piles/decks; dealFromTo handles this mostly
 //TODO: allow player to only see their cards, like in five-card draw poker -> **make dynamic**
 
-let table = new cardTable();
+let memory = new cardGame();
 
 // table.newPlayers(4);
 // table.dealRounds(2,false);
 
 //TODO: table.startGame()
-table.newPlayers(1);
-table.transferAndHide("2.x 3.x 5.x 7.x", "dealer", "p1");
-table.shuffle("p1");
+memory.newPlayers(1);
+memory.transferAndHide("2.x 3.x 5.x 7.x", "dealer", "p1");
+memory.shuffle("p1");
 
 //allow user to pick a card
 //allow user to pick a second card

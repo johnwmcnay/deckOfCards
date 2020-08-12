@@ -1,16 +1,22 @@
-class cardGame {
+class cardGame extends cardTable {
     // TODO: turn-based; simultaneous turns
 
-    constructor() {
+    tables = [];
+
+    constructor(id='game') {
+        super();
+
+        //TODO: addTable
+        this.id = id;
+
 
     }
 
-    static actionOnClick(card, deckID) {
+    static actionOnClick(card, deck) {
         console.log(card);
-        console.log(deckID);
+        console.log(deck);
         card.flip()
-
-
+        cardUI.drawToTable(deck, "table");
     }
 
     //memory logic
@@ -22,5 +28,6 @@ class cardGame {
         //check to see if they match,
         //repeat
     }
-
 }
+
+

@@ -19,7 +19,7 @@ class cardUI {
         }
 
         for (let card of pile.pile) {
-            let element = cardUI.createCard(card, pile.id);
+            let element = cardUI.createCard(card, pile);
             wrapper.appendChild(element);
         }
         document.getElementById(tableID).appendChild(wrapper);
@@ -27,10 +27,10 @@ class cardUI {
         return true;
     }
 
-    static createCard(card, deckID) {
+    static createCard(card, deck) {
         let element = document.createElement("button");
 
-        // element.textContent = card.rank; //TODO: for testing, remove this line when necessary
+        element.textContent = (card.isFaceUp || card.ownerCanLook) ? card.rank: "";
         element.className = card.id;
 
         if (card.isRed()) {
@@ -38,10 +38,10 @@ class cardUI {
         } else {
             element.className += " card black-card ";
         }
-        element.className += deckID;
+        element.className += deck.id;
 
         element.onclick = function() {
-            cardGame.actionOnClick(card, deckID);
+            cardGame.actionOnClick(card, deck);
         };
 
         return element;
@@ -54,7 +54,7 @@ class cardUI {
         let element = document.getElementsByClassName(card.id + " " + fromPile.id)[0];
 
         if (!element) {
-            element = this.createCard(card, toPile.id);
+            element = this.createCard(card, toPile);
         }
         //TODO: hard-coded for p1, should be dynamic;
         element.textContent = card.isFaceUp || (card.ownerCanLook && toPile.id === "p1") ? card.rank : "";

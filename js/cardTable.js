@@ -1,19 +1,20 @@
-class cardTable extends cardGame {
+class cardTable {
 
-    piles = []; //an array of piles
-    game = {}; //gameRules object
+    constructor(id="table") {
 
-    constructor(id='table', game) {
-        super();
-        this.game = game;
-        this.id = id;
+        this.id = id
+        this.piles = [];
 
+        //TODO: createTable
         let element = document.createElement("div");
         element.id = id;
         document.body.appendChild(element);
+
         this.initializeDealer();
+
     }
 
+    //TODO: move to cardTable
     initializeDealer(pileID = "dealer") {
         let dealer = new cardPlayer(pileID, playingCardDeck.defaultDeck);
         dealer.isActive = false;
@@ -22,15 +23,13 @@ class cardTable extends cardGame {
         this.shuffle("dealer");
     }
 
-    gameSetup() {
-
-    }
-
     pile(id) {
         return this.piles[id];
     }
 
+
     //takes a pile object and pushes it into an array
+    //TODO: add to cardTable
     add(newPile) {
         this.piles[newPile.id] = newPile;
         cardUI.drawToTable(newPile);
@@ -43,6 +42,7 @@ class cardTable extends cardGame {
     }
 
     //shuffles the dealer's deck by default, otherwise it takes a pileID string
+    //TODO: add another layer to shuffle
     shuffle(id="dealer") {
         this.pile(id).shuffle();
         cardUI.drawToTable(this.pile(id));
