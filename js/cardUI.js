@@ -4,7 +4,8 @@ class cardUI {
 
     }
 
-    static drawToTable(pile, tableID = "table") {
+    static drawToTable(pile, table) {
+        console.log("...", table);
         if (!pile.isActive) {
             return false;
         }
@@ -19,15 +20,15 @@ class cardUI {
         }
 
         for (let card of pile.pile) {
-            let element = cardUI.createCard(card, pile);
+            let element = cardUI.createCard(card, pile, table);
             wrapper.appendChild(element);
         }
-        document.getElementById(tableID).appendChild(wrapper);
+        document.getElementById(table.id).appendChild(wrapper);
 
         return true;
     }
 
-    static createCard(card, deck) {
+    static createCard(card, deck, table) {
         let element = document.createElement("button");
 
         element.textContent = (card.isFaceUp || card.ownerCanLook) ? card.rank : " ";
@@ -42,7 +43,7 @@ class cardUI {
         element.className += deck.id;
 
         element.onclick = function () {
-            cardGame.actionOnClick(card, deck);
+            cardGame.actionOnClick(card, deck, table);
         }
         return element;
     }

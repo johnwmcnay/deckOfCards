@@ -32,7 +32,7 @@ class cardTable {
     //TODO: add to cardTable
     add(newPile) {
         this.piles[newPile.id] = newPile;
-        cardUI.drawToTable(newPile);
+        cardUI.drawToTable(newPile, this);
     }
 
     newPlayers(numOfPlayers) {
@@ -45,7 +45,7 @@ class cardTable {
     //TODO: add another layer to shuffle
     shuffle(id="dealer") {
         this.pile(id).shuffle();
-        cardUI.drawToTable(this.pile(id));
+        cardUI.drawToTable(this.pile(id), this);
     }
 
     //deals the top card from the "dealer" pile to another pile
