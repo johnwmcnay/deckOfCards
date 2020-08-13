@@ -5,20 +5,16 @@ class cardTable {
         this.id = id
         this.piles = [];
 
-        //TODO: createTable
-        let element = document.createElement("div");
-        element.id = id;
-        document.body.appendChild(element);
+        cardUI.createTable(id);
 
         this.initializeDealer();
 
     }
 
-    //TODO: move to cardTable
     initializeDealer(pileID = "dealer") {
         let dealer = new cardPlayer(pileID, playingCardDeck.defaultDeck);
         dealer.isActive = false;
-        this.add(dealer);
+        this.addPile(dealer);
         // this.pile("dealer").isActive = false;
         this.shuffle("dealer");
     }
@@ -27,22 +23,19 @@ class cardTable {
         return this.piles[id];
     }
 
-
     //takes a pile object and pushes it into an array
-    //TODO: add to cardTable
-    add(newPile) {
+    addPile(newPile) {
         this.piles[newPile.id] = newPile;
         cardUI.drawToTable(newPile, this);
     }
 
-    newPlayers(numOfPlayers) {
-        for (let i = 1; i <= numOfPlayers; i++) {
-            this.add(new cardPlayer("p" + i));
-        }
-    }
+    // newPlayers(numOfPlayers) {
+    //     for (let i = 1; i <= numOfPlayers; i++) {
+    //         this.add(new cardPlayer("p" + i));
+    //     }
+    // }
 
     //shuffles the dealer's deck by default, otherwise it takes a pileID string
-    //TODO: add another layer to shuffle
     shuffle(id="dealer") {
         this.pile(id).shuffle();
         cardUI.drawToTable(this.pile(id), this);
@@ -98,6 +91,7 @@ class cardTable {
         } else {
             cardsToMove = [cardData];
         }
+
         for (let card of cardsToMove) {
             if (!canLook) {
                 card.ownerCanLook = false;
@@ -105,10 +99,8 @@ class cardTable {
             }
             cardUI.relocate(card, fromPile, toPile);
         }
+
         return cardsToMove;
     }
 
-    transferAndHide(cardData, pileOneID, pileTwoID) {
-        this.transfer(cardData, pileOneID, pileTwoID, false);
-    }
 }

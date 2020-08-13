@@ -1,12 +1,13 @@
-class cardGame extends cardTable {
+class cardGame {
     // TODO: turn-based; simultaneous turns
 
     tables = []; //TODO: multiple tables, addTable()
 
     constructor(id='game') {
-        super();
         //TODO: set an interval
         this.rules = new gameRules();
+        this.addTable()
+        this.id = id;
     }
 
     static actionOnClick(card, deck, table) {
@@ -30,6 +31,38 @@ class cardGame extends cardTable {
     waitForInput() {
 
     }
+
+    addTable(id="table") {
+        this.tables[id] = new cardTable(id);
+    }
+
+    table(tableID) {
+        return this.tables[tableID];
+    }
+
+    newPlayers(numOfPlayers, tableID="table") {
+        for (let i = 1; i <= numOfPlayers; i++) {
+            this.table(tableID).addPile(new cardPlayer("p" + i));
+        }
+    }
+    // transfer(cardData, pileOneID, pileTwoID, canLook= true)
+    transfer(cardData, pileOneID, pileTwoID, tableID="table", canLook = true) {
+        let table = this.table(tableID);
+        table.transfer(cardData, pileOneID, pileTwoID, tableID, canLook);
+    }
+
+    transferAndHide(cardData, pileOneID, pileTwoID, tableID="table") {
+        this.table(tableID).transfer(cardData, pileOneID, pileTwoID, false);
+    }
+
+    shuffle(pileID="dealer", tableID="table") {
+        let table = this.table(tableID);
+        let pile = table.pile(pileID);
+
+        pile.shuffle();
+        cardUI.drawToTable(pile, table);
+    }
+
 }
 
 

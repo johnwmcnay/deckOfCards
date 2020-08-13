@@ -5,7 +5,6 @@ class cardUI {
     }
 
     static drawToTable(pile, table) {
-        console.log("...", table);
         if (!pile.isActive) {
             return false;
         }
@@ -46,6 +45,12 @@ class cardUI {
             cardGame.actionOnClick(card, deck, table);
         }
         return element;
+    }
+
+    static createTable(id) {
+        let element = document.createElement("div");
+        element.id = id;
+        document.body.appendChild(element);
     }
 
     static relocate(card, fromPile, toPile) {
