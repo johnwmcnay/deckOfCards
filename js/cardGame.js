@@ -10,13 +10,13 @@ class cardGame {
         this.id = id;
     }
 
-    static actionOnClick(card, deck, table) {
+    static actionOnClick(card, deck, table, game) {
         console.log(card);
         console.log(deck);
         card.flip();
         card.isDisabled = true;
-        cardUI.drawToTable(deck, table);
-        // table.advance()
+        cardUI.drawToTable(deck, table, game);
+        // rules.advance()
     }
 
     //memory logic
@@ -45,7 +45,7 @@ class cardGame {
             this.table(tableID).addPile(new cardPlayer("p" + i));
         }
     }
-    // transfer(cardData, pileOneID, pileTwoID, canLook= true)
+
     transfer(cardData, pileOneID, pileTwoID, tableID="table", canLook = true) {
         let table = this.table(tableID);
         table.transfer(cardData, pileOneID, pileTwoID, tableID, canLook);
@@ -58,9 +58,8 @@ class cardGame {
     shuffle(pileID="dealer", tableID="table") {
         let table = this.table(tableID);
         let pile = table.pile(pileID);
-
         pile.shuffle();
-        cardUI.drawToTable(pile, table);
+        cardUI.drawToTable(pile, table, this);
     }
 
 }

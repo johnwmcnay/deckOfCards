@@ -29,16 +29,9 @@ class cardTable {
         cardUI.drawToTable(newPile, this);
     }
 
-    // newPlayers(numOfPlayers) {
-    //     for (let i = 1; i <= numOfPlayers; i++) {
-    //         this.add(new cardPlayer("p" + i));
-    //     }
-    // }
-
     //shuffles the dealer's deck by default, otherwise it takes a pileID string
     shuffle(id="dealer") {
         this.pile(id).shuffle();
-        cardUI.drawToTable(this.pile(id), this);
     }
 
     //deals the top card from the "dealer" pile to another pile
