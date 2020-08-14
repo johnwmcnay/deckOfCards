@@ -1,3 +1,4 @@
+//TODO: UI should extend cardGame
 class cardUI {
 
     constructor() {
@@ -81,6 +82,14 @@ class cardUI {
         }
     }
 
+    static createUIButton(text, id, action) {
+        let element = document.createElement("button")
+        element.textContent = text;
+        element.id = id;
+        element.onclick = action;
+        document.body.appendChild(element);
+
+    }
 
     // static disableElement(element) {
     //     element.disabled = true;

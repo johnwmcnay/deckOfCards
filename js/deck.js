@@ -1,13 +1,12 @@
 //TODO: find a better home for game logic
 function memoryLogic(game) {
-    console.log("game", game)
 
     let card = game.currentSelection;
     let pile = game.currentPile;
 
     card.flip();
-
     card.isDisabled = true;
+
     cardUI.drawToTable(pile, game);
 
     if (game.selections.length === 2) {

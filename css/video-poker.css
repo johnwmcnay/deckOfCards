@@ -2,7 +2,14 @@
     color: red;
 }
 
-/*TODO: fixed bug where cards shift on click*/
+.selected {
+    background-color: #ba9d37;
+}
+
+#draw {
+    float: right;
+}
+
 .card {
     margin: 10px;
     max-width: 40px;

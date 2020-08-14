@@ -1,17 +1,22 @@
 function videoPokerLogic(game) {
 
-    let card = game.currentSelection;
+    //TODO: ability to create various UI buttons
 
+
+
+}
+
+function drawFunction() {
 
 }
 
 
 let videoPoker = new cardGame();
+
+
+cardUI.createUIButton("Draw", "draw", drawFunction);
+
+
 videoPoker.currentStepFunction = videoPokerLogic;
-// table.newPlayers(4);
-// table.dealRounds(2,false);
-
-//TODO: table.startGame()
 videoPoker.newPlayers(1);
-
 videoPoker.dealTo("p1", 5);

@@ -25,12 +25,20 @@ class cardGame extends cardTable {
 
     static actionOnClick(card, pile, game) {
 
+        if (this.toggleSelection(card, game)) {
+            game.executeStep();
+        }
+
+    }
+
+    static toggleSelection(card, game) {
         if (game.selections.hasCard(card)) {
             game.removeSelection(card);
+            return false;
         } else {
             game.addSelection(card);
+            return true;
         }
-        game.executeStep();
     }
 
     flipCards(...cards) {
@@ -41,11 +49,20 @@ class cardGame extends cardTable {
 
     removeSelection(card) {
         this.selections.remove(card);
+        let element = document.getElementsByClassName(card.id)[0];
+        element.className = element.className.replace(" selected", "");
+    }
+
+    get currentSelection() {
+        let pile = this.selections.pile;
+
+        return pile[pile.length - 1];
     }
 
     addSelection(card) {
         this.selections.add(card);
-        this.currentSelection = card;
+        let element = document.getElementsByClassName(card.id)[0];
+        element.className += " selected";
     }
 
     //memory logic
