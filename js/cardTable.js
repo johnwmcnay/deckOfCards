@@ -1,12 +1,11 @@
 class cardTable {
 
     constructor() {
-
         this.tableID = "table"
         this.piles = [];
         cardUI.createTable();
         this.initializeDealer();
-        cardUI.drawToTable(this.piles["dealer"], this);
+        //cardUI.drawToTable(this.pile("dealer"), this);
     }
 
     initializeDealer(pileID = "dealer") {
@@ -34,8 +33,10 @@ class cardTable {
     }
 
     //deals the top card from the "dealer" pile to another pile
-    deal(pileID, faceUp= true) {
-        this.dealFromTo("dealer", pileID, faceUp);
+    dealTo(pileID, numOfCards = 1, faceUp= true) {
+        for (let i = 1; i <= numOfCards; i++) {
+            this.dealFromTo("dealer", pileID, faceUp);
+        }
     }
 
     //deal assumes giving the top card
@@ -47,11 +48,11 @@ class cardTable {
     }
 
     dealFaceUp (pileID) {
-        this.deal(pileID);
+        this.dealTo(pileID);
     }
 
     dealFaceDown (pileID) {
-        this.deal(pileID, false);
+        this.dealTo(pileID, false);
     }
 
     //do dealRound for 'numOfRounds' times
@@ -67,7 +68,7 @@ class cardTable {
 
         for (let key of Object.keys(this.piles)) {
             if (key !== "dealer") {
-                this.deal(this.piles[key].id, faceUp);
+                this.dealTo(this.piles[key].id, faceUp);
             }
         }
     }
@@ -89,7 +90,9 @@ class cardTable {
                 card.ownerCanLook = false;
                 card.belongsTo = pileTwoID;
             }
-            cardUI.relocate(card, fromPile, toPile);
+            // cardUI.relocate(card, fromPile, toPile);
+            card.moveFromTo(fromPile, toPile);
+            cardUI.drawToTable(toPile, this);
         }
 
         return cardsToMove;

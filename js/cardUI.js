@@ -4,7 +4,9 @@ class cardUI {
 
     }
 
-    static drawToTable(pile, table, game) {
+    //TODO: redo drawing to minimizing areas that need to be updated; update only what needs to be updated
+    // updates should happen in the game loop
+    static drawToTable(pile, game) {
         if (!pile.isActive) {
             return false;
         }
@@ -19,19 +21,19 @@ class cardUI {
         }
 
         for (let card of pile.pile) {
-            let element = cardUI.createCard(card, pile, table, game);
+            let element = document.getElementsByClassName(card.id)[0];
+            element = cardUI.createCard(card, pile, game);
             wrapper.appendChild(element);
         }
-        console.log(table);
-        document.getElementById(table.tableID).appendChild(wrapper);
+        document.getElementById(game.tableID).appendChild(wrapper);
 
         return true;
     }
 
-    static createCard(card, pile, table, game) {
+    static createCard(card, pile, game) {
         let element = document.createElement("button");
 
-        element.textContent = (card.isFaceUp || card.ownerCanLook) ? card.rank : " ";
+        element.textContent = (card.isFaceUp || (card.ownerCanLook && pile.id === "p1")) ? card.rank : " ";
         element.className = card.id;
         element.disabled = card.isDisabled;
 
@@ -43,7 +45,7 @@ class cardUI {
         element.className += pile.id;
 
         element.onclick = function () {
-            cardGame.actionOnClick(card, pile, table, game);
+            cardGame.actionOnClick(card, pile, game);
         }
         return element;
     }
@@ -54,23 +56,31 @@ class cardUI {
         document.body.appendChild(element);
     }
 
-    static relocate(card, fromPile, toPile) {
+    static setAllButtons(state) {
+        for (let btn of document.getElementsByTagName("button")) {
 
-        card.moveFromTo(fromPile, toPile);
-
-        let element = document.getElementsByClassName(card.id + " " + fromPile.id)[0];
-
-        if (!element) {
-            element = this.createCard(card, toPile);
+            if (btn.className.indexOf("locked") === -1) {
+                btn.disabled = !state;
+            }
         }
-        //TODO: hard-coded for p1, should be dynamic;
-        // element.textContent = card.isFaceUp || (card.ownerCanLook && toPile.id === "p1") ? card.rank : "";
-        //for testing only below
-        element.textContent = card.isFaceUp || (card.ownerCanLook && toPile.id === "p1") ? card.rank : card.rank;
-        element.className = element.className.replace(fromPile.id, toPile.id);
-        element.remove();
-        document.getElementById(toPile.id).appendChild(element);
     }
+
+    static enableAllButtons() {
+        cardUI.setAllButtons(true);
+    }
+
+    static disableAllButtons() {
+        cardUI.setAllButtons(false);
+    }
+
+    static lockCards(...cards) {
+        for (let card of cards) {
+            let btn = document.getElementsByClassName(card.id)[0];
+            btn.className += " locked";
+            card.isLocked = true;
+        }
+    }
+
 
     // static disableElement(element) {
     //     element.disabled = true;

@@ -1,3 +1,36 @@
+//TODO: find a better home for game logic
+function memoryLogic(game) {
+    console.log("game", game)
+
+    let card = game.currentSelection;
+    let pile = game.currentPile;
+
+    card.flip();
+
+    card.isDisabled = true;
+    cardUI.drawToTable(pile, game);
+
+    if (game.selections.length === 2) {
+        let cardOne = game.selections.pile[0];
+        let cardTwo = game.selections.pile[1];
+
+        if (playingCard.areSoulmates(cardOne, cardTwo)) {
+            cardUI.lockCards(cardOne, cardTwo);
+            cardUI.drawToTable(pile, game);
+            game.resetSelections();
+        } else {
+            cardUI.disableAllButtons();
+            game.flipCards(cardOne, cardTwo);
+            setTimeout(function () {
+                game.resetSelections();
+                cardUI.enableAllButtons();
+                cardOne.isDisabled = false; //TODO: find a better way
+                cardTwo.isDisabled = false;
+                cardUI.drawToTable(pile, game);
+            }, 1500);
+        }
+    }
+}
 
 //TODO: ********************
 // create multi-player game logic, high-card or poker
@@ -9,7 +42,7 @@
 //TODO: allow player to only see their cards, like in five-card draw poker -> **make dynamic**
 
 let memory = new cardGame();
-
+memory.currentStepFunction = memoryLogic;
 // table.newPlayers(4);
 // table.dealRounds(2,false);
 
