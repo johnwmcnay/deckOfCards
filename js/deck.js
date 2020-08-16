@@ -1,31 +1,35 @@
 //TODO: find a better home for game logic
-function memoryLogic(game) {
+function memoryLogic() {
 
-    let card = game.currentSelection;
-    let pile = game.currentPile;
+    console.log(this);
+    let game = this;
+    let card = this.currentSelection;
+    let pile = this.currentPile;
 
     card.flip();
     card.isDisabled = true;
 
-    cardUI.drawToTable(pile, game);
+    this.UI.drawToTable(pile, this);
 
-    if (game.selections.length === 2) {
-        let cardOne = game.selections.pile[0];
-        let cardTwo = game.selections.pile[1];
+    if (this.selections.length === 2) {
+        let cardOne = this.selections.pile[0];
+        let cardTwo = this.selections.pile[1];
 
         if (playingCard.areSoulmates(cardOne, cardTwo)) {
             cardUI.lockCards(cardOne, cardTwo);
-            cardUI.drawToTable(pile, game);
-            game.resetSelections();
+            this.UI.drawToTable(pile, this);
+            this.resetSelections();
         } else {
             cardUI.disableAllButtons();
-            game.flipCards(cardOne, cardTwo);
-            setTimeout(function () {
+            this.flipCards(cardOne, cardTwo);
+            setTimeout(function() {
+                console.log(game);
+                console.log(game.resetSelections);
                 game.resetSelections();
                 cardUI.enableAllButtons();
                 cardOne.isDisabled = false; //TODO: find a better way
                 cardTwo.isDisabled = false;
-                cardUI.drawToTable(pile, game);
+                game.UI.drawToTable(pile, game);
             }, 1500);
         }
     }
@@ -40,8 +44,7 @@ function memoryLogic(game) {
 //TODO: allow dealer to deal from multiple piles/decks; dealFromTo handles this mostly
 //TODO: allow player to only see their cards, like in five-card draw poker -> **make dynamic**
 
-let memory = new cardGame();
-memory.currentStepFunction = memoryLogic;
+let memory = new cardGame(memoryLogic);
 // table.newPlayers(4);
 // table.dealRounds(2,false);
 

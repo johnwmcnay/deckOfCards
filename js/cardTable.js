@@ -2,6 +2,7 @@ class cardTable {
 
     constructor() {
         this.tableID = "table"
+        this.UI = new cardUI();
         this.piles = [];
         cardUI.createTable();
         this.initializeDealer();
@@ -22,14 +23,14 @@ class cardTable {
     //takes a pile object and pushes it into an array
     addPile(newPile) {
         this.piles[newPile.id] = newPile;
-        cardUI.drawToTable(newPile, this);
+        this.UI.drawToTable(newPile, this);
     }
 
     //shuffles the dealer's deck by default, otherwise it takes a pileID string
     shuffle(id="dealer") {
         let pile = this.pile(id);
         pile.shuffle();
-        cardUI.drawToTable(pile, this);
+        this.UI.drawToTable(pile, this);
     }
 
     //deals the top card from the "dealer" pile to another pile
@@ -92,7 +93,7 @@ class cardTable {
             }
             // cardUI.relocate(card, fromPile, toPile);
             card.moveFromTo(fromPile, toPile);
-            cardUI.drawToTable(toPile, this);
+            this.UI.drawToTable(toPile, this);
         }
 
         return cardsToMove;

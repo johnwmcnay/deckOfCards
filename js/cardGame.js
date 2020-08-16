@@ -1,13 +1,14 @@
 class cardGame extends cardTable {
     // TODO: turn-based; simultaneous turns
 
-    constructor(id='game') {
+    constructor(logicFunction, id='game') {
         super();
         this.steps = [];
         this.currentStep = 0;
-        this.currentStepFunction = {};
+        this.currentStepFunction = logicFunction;
         this.currentPlayer = "p1";
         this.gameID = id;
+        this.gameLogic = logicFunction;
         this.resetSelections();
     }
 
@@ -50,19 +51,18 @@ class cardGame extends cardTable {
     removeSelection(card) {
         this.selections.remove(card);
         let element = document.getElementsByClassName(card.id)[0];
-        element.className = element.className.replace(" selected", "");
+        element.classList.remove("selected");
     }
 
     get currentSelection() {
         let pile = this.selections.pile;
-
         return pile[pile.length - 1];
     }
 
     addSelection(card) {
         this.selections.add(card);
         let element = document.getElementsByClassName(card.id)[0];
-        element.className += " selected";
+        element.classList.add("selected");
     }
 
     //memory logic

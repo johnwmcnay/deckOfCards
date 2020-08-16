@@ -1,4 +1,4 @@
-//TODO: UI should extend cardGame
+//TODO: UI should be redesigned
 class cardUI {
 
     constructor() {
@@ -7,7 +7,8 @@ class cardUI {
 
     //TODO: redo drawing to minimizing areas that need to be updated; update only what needs to be updated
     // updates should happen in the game loop
-    static drawToTable(pile, game) {
+    //
+    drawToTable(pile, game) {
         if (!pile.isActive) {
             return false;
         }
